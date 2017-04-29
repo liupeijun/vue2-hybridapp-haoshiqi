@@ -1,11 +1,11 @@
 	<template>
-			<div class="content">
+			<div class="core">
 				<div class="recommendlistContainer">
 					<ul class="recommendlist"   
 						v-infinite-scroll="loadMore"
 	  					infinite-scroll-disabled="loading"
 	  					infinite-scroll-distance="0">
-						<li v-for="(data,index) in recommendlist">
+						<li v-for="(data,index) in recommendlist" @click="handleClick">
 							<img :src="data.skuPic"/>
 
 							<div class="text">
@@ -20,6 +20,7 @@
 					</ul>
 				</div>
 				<div class="nomorefoods" v-show="isEnd">没有更多的商品了</div>
+				
 			</div>
 	</template>
 
@@ -31,34 +32,36 @@
 
 			},
 
-			beforeRouteEnter(to,from,next){
+			props:["load","data","url"], 
+			//load 是父组件传来的属性值 ，因为在子组件中还要修改这个值，所以建议放在计算属性中（否则控制台报错），false 表示不禁用无限滚动
 
-				next(vm=>{
-					vm.loading= false; //可以加无限加载了
-				});
+
+			computed:{
+				loading(){
+					return this.load; // loading 是一个计算属性， 只要依赖的值发生改变， 那么计算属性loading也会改变
+				}
 			},
 
-			beforeRouteLeave(to,from,next){
-				this.loading = true; //禁用无限加载， fixed bug by kerwin
-				next();
+			watch:{
+				
 			},
 
 			data(){
 				return {
 					recommendlist:[],
 					currentpage:0,
-					loading:false ,//false 表示不禁用无限滚动
 					isEnd:false,
-					totalPage:0
+					totalPage:0,
 				}
 			},
+
+
 			methods:{
 				
 				getRecommendList(num,callback){
-					axios.get('/api/couplelist/product',{
-						params: {
-					      num: num
-					    }
+					
+					axios.get(this.url,{
+						params: Object.assign({num: num},this.data) //合并对象
 					}).then(res=>{
 					  	// console.log(res.data);
 					  	this.recommendlist =[...this.recommendlist,...res.data.data.list];
@@ -72,19 +75,21 @@
 				loadMore(){
 					
 
-					this.loading = true; //禁用无限加载
+					this.loading = true; //禁用无限加载 ，直接改变计算属性
 					this.getRecommendList(++this.currentpage,()=>{
 						
 						if(this.currentpage<this.totalPage){
-							this.loading= false; //启用无限加载
+							this.loading= false; //启用无限加载，直接改变计算属性
 						}else{
 							this.isEnd=true;
-							this.loading= true; //禁用无限加载， 所有的数据请求完了已经
+							this.loading= true; //禁用无限加载， 所有的数据请求完了已经，，直接改变计算属性
 						}
 					});
 				},
 
-				
+				handleClick(){
+					console.log(this.data);
+				}
 			}
 
 		}
@@ -93,8 +98,8 @@
 
 	<style lang="scss" scoped>
 		
-			.content{
-				padding-top:44px;
+			.core{
+				 
 				.recommendlist{
 						li{
 							padding:10px;

@@ -8,12 +8,19 @@ import Shopcar from "./components/shopcar.vue";
 import Me from "./components/me.vue";
 import Search from "./components/search.vue";
 import List from "./components/list.vue";
+import Tuansearch from "./components/tuansearch.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
   {
     path:"/search",
     component:Search   //serch 要独立于root之外， 不属于root的子路由
+  },
+
+  {
+    path:"/tuansearch",
+    component:Tuansearch
   },
 
   {
