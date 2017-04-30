@@ -10,13 +10,13 @@
 				<div class="filter">
 					<div class="tag" @click="direction1= !direction1;direction2=false;filterIndex=0" :class="filterIndex==0?'active':''">{{filtername}}<i class="iconfont" :class="direction1?'icon-less':'icon-moreunfold'"></i>
 					</div>
-					<div class="tag" @click="direction1= false;direction2=false;filterIndex=1" :class="filterIndex==1?'active':''">销量</div>
+					<div class="tag" @click="direction1= false;direction2=false;filterIndex=1;resetState();params.sort='selled';loadMore()" :class="filterIndex==1?'active':''">销量</div>
 					<div class="tag" @click="direction2= !direction2;direction1=false;filterIndex=2" :class="filterIndex==2?'active':''">筛选<i class="iconfont" :class="direction2?'icon-less':'icon-moreunfold'"></i></div>
 
 					<ul class="filterlist" v-show="direction1">
-							<li @click="direction1= false;secondFilterIndex=0;filtername='综合排序'" :class="secondFilterIndex==0?'active':''">综合排序</li>
-							<li @click="direction1= false;secondFilterIndex=1;filtername='价格从低到高'" :class="secondFilterIndex==1?'active':''">价格从低到高</li>
-							<li @click="direction1= false;secondFilterIndex=2;filtername='价格从高到低'" :class="secondFilterIndex==2?'active':''">价格从高到低</li>
+							<li @click="direction1= false;secondFilterIndex=0;filtername='综合排序';resetState();loadMore()" :class="secondFilterIndex==0?'active':''">综合排序</li>
+							<li @click="direction1= false;secondFilterIndex=1;filtername='价格从低到高';resetState();params.sortType=0;loadMore()" :class="secondFilterIndex==1?'active':''">价格从低到高</li>
+							<li @click="direction1= false;secondFilterIndex=2;filtername='价格从高到低';resetState();params.sortType=1;loadMore()" :class="secondFilterIndex==2?'active':''">价格从高到低</li>
 					</ul>
 
 
@@ -43,7 +43,7 @@
 
 					<div class="footer">
 						<span class="cancel" @click="direction2= false;">重置</span>
-						<span  @click="direction2= false;">确定</span>
+						<span  @click="direction2= false;resetState();params.area=selectCountry;loadMore()">确定</span>
 					</div>
 				</div>
 			</transition>
@@ -78,7 +78,7 @@
 			</div>
 			
 			<!-- 这个组件是在params 变量初始化完成后才会render -->
-				<tuancore :load="isNeedLoading" :url="'/api/couplelist/search/activities'" :data="params"></tuancore>
+				<tuancore :loading="isNeedLoading" :load-more="loadMore" :recommendlist="recommendlist" :isEnd="isEnd"></tuancore>
 			
 		</div>
 	</template>
@@ -86,7 +86,9 @@
 
 	<script>
 		import router from "../router";
-		import tuancore  from "./tuancore.vue"; //引入组件
+		import tuancore  from "./tuansearchcore.vue"; //引入组件
+		let  CancelToken ;
+		let  source ;
 		export default {
 
 			mounted(){
@@ -104,11 +106,20 @@
 					vm.title = vm.$route.query.text; 
 					vm.params.text = vm.$route.query.text; 
 					vm.isNeedLoading = false;
+
+					//每次进入路由重新设置cancel token 可以source.cancel取消数据请求
+					CancelToken = axios.CancelToken; 
+					source = CancelToken.source(); 
+					
+					vm.resetData();
+					vm.resetState();
+					vm.loadMore();
 				})
 			},
 
 			beforeRouteLeave(to,from,next){
 				this.isNeedLoading = true;
+				source.cancel();
 				next();
 			},
 
@@ -127,8 +138,13 @@
 					options:[], //产地 或者价格筛选
 					selectCountry:"全部",
 					selectPrice:"全部",
-					params:{text:"",sortType:undefined},
-					filtername:'综合排序' //过滤的title
+					params:{text:""},
+					filtername:'综合排序' ,//过滤的title
+
+					currentpage:0,
+					isEnd:false,
+					totalPage:0,
+					recommendlist:[]
 				}
 			},
 
@@ -163,6 +179,58 @@
 					}else{
 						this.selectPrice =this.formatNumber(data.start )+(data.end?'-'+this.formatNumber(data.end):"以上");
 					}
+
+				},
+
+
+				getRecommendList(num,callback){
+					
+					axios.get('/api/couplelist/search/activities',{
+						cancelToken: source.token, //设置token(所有的请求的都是同一个token)
+						params: Object.assign({num: num},this.params) //合并对象
+					}).then(res=>{
+					  	// console.log(res.data);
+					  	this.recommendlist =[...this.recommendlist,...res.data.data.list];
+					  	this.totalPage = res.data.data.totalPage;
+					  	callback && callback();
+					  })
+					  .catch(function (error) {
+					    console.log(error);
+					  });
+				},
+				loadMore(){
+					
+
+					this.isNeedLoading = true; //禁用无限加载 ，直接改变计算属性
+					this.getRecommendList(++this.currentpage,()=>{
+						
+						if(this.currentpage<this.totalPage){
+							this.isNeedLoading= false; //启用无限加载，直接改变计算属性
+						}else{
+							this.isEnd=true;
+							this.isNeedLoading= true; //禁用无限加载， 所有的数据请求完了已经，，直接改变计算属性
+						}
+					});
+				},
+
+				resetState(){
+					
+					//重置所有 团数据, loadmore 会重新加载所有的数据
+					this.isNeedLoading=false;
+					this.currentpage=0;
+					this.isEnd=false;
+					this.totalPage=0;
+					this.recommendlist=[];
+					this.params= {text:this.title};
+					
+				},
+
+				resetData(){
+					this.filterIndex=0;
+					this.secondFilterIndex=0;
+					this.selectCountry="全部";
+					this.selectPrice="全部";
+					this.filtername='综合排序' ;//过滤的title
 
 				}
 			},

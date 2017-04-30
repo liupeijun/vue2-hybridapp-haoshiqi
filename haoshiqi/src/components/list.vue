@@ -13,7 +13,7 @@
 						v-infinite-scroll="loadMore"
 	  					infinite-scroll-disabled="loading"
 	  					infinite-scroll-distance="0">
-						<li v-for="(data,index) in searchlist">
+						<li v-for="(data,index) in searchlist" @click="handleDetailClick(data.skuInfo.id)">
 							<img :src="data.main_sku_pic"/>
 
 							<div class="text">
@@ -87,18 +87,19 @@
 				getSearchList(value,num,callback){
 					let url="";
 					let params=null;
-					if(this.from=="/search"){
-						url="/api/search/list";
-						params= {
-					      num: num,
-					      text:value
-					    }
-					}else{
+					if(this.from=="/category"){
+						//
 						url="/api/search/category";
 						params= {
 					      num: num,
 					      text:value,
 					      id:this.$route.query.id //category _id 值
+					    }
+					}else{
+						url="/api/search/list";
+						params= {
+					      num: num,
+					      text:value
 					    }
 					}
 
@@ -140,6 +141,10 @@
 							this.loading= true; //禁用无限加载， 所有的数据请求完了已经
 						}
 					});
+				},
+
+				handleDetailClick(id){
+					router.push({path:"/detail",query:{id:id}});
 				}
 			}
 		}

@@ -8,6 +8,7 @@ import Shopcar from "./components/shopcar.vue";
 import Me from "./components/me.vue";
 import Search from "./components/search.vue";
 import List from "./components/list.vue";
+import Detail from "./components/detail.vue";
 import Tuansearch from "./components/tuansearch.vue";
 
 Vue.use(VueRouter);
@@ -26,6 +27,11 @@ const routes = [
   {
     path:"/list",
     component:List
+  },
+
+  {
+    path:"/detail",
+    component:Detail
   },
 
   { path: '/', 

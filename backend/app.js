@@ -11,6 +11,7 @@ var homeapi =require("./routes/spider/home");
 var coupleapi = require("./routes/spider/couplelist");
 var categoryapi = require("./routes/spider/categorylist");
 var searchapi = require("./routes/spider/search");
+var detailapi = require("./routes/spider/product");
 var app = express();
 
 // view engine setup
@@ -31,6 +32,7 @@ app.use("/home",homeapi);
 app.use("/couplelist",coupleapi);
 app.use("/categorylist",categoryapi);
 app.use("/search",searchapi);
+app.use("/product",detailapi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

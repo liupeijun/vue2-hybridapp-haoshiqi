@@ -19,5 +19,8 @@
 				    -ms-user-select: none;
 				    user-select: none; //当点击没有选中状态
 			}
+			.mint-toast-icon{
+				font-size:36px!important;
+			}
 	</style>
 

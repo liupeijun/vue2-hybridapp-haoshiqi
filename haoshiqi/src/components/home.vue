@@ -34,13 +34,13 @@
 						v-infinite-scroll="loadMore"
 	  					infinite-scroll-disabled="loading"
 	  					infinite-scroll-distance="0">
-						<li v-for="(data,index) in recommendlist">
+						<li v-for="(data,index) in recommendlist" @click="handleDetailClick(data.skuInfo.id)">
 							<img :src="data.skuInfo.skuThumbnail"/>
 
 							<div class="text">
 								<h3>{{data.name}}</h3>
 								<p>￥{{data.skuInfo.price |formatNumber}}<span>{{data.skuInfo.market_price|formatNumber}}</span></p>
-							</div>
+							</div> 
 
 							<div class="shopcar">
 								
@@ -143,6 +143,10 @@
 				//进入搜索页面
 				handleFocus(){
 					router.push({path:"/search"});
+				},
+
+				handleDetailClick(id){
+					router.push({path:"/detail",query:{id:id}});
 				}
 			}
 

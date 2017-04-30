@@ -1,9 +1,12 @@
 	<template>
 			<div class="core">
 				<div class="recommendlistContainer">
+				<!-- 禁用自动检查，需要手动检查，是否需要更新 -->
 					<ul class="recommendlist"   
 						v-infinite-scroll="loadMore"
 	  					infinite-scroll-disabled="loading"
+	  					infinite-scroll-immediate-check	="false" 
+
 	  					infinite-scroll-distance="0">
 						<li v-for="(data,index) in recommendlist" @click="handleClick">
 							<img :src="data.skuPic"/>
@@ -32,63 +35,24 @@
 
 			},
 
-			props:["load","data","url"], 
+			props:["loading","recommendlist","loadMore","isEnd"], 
 			//load 是父组件传来的属性值 ，因为在子组件中还要修改这个值，所以建议放在计算属性中（否则控制台报错），false 表示不禁用无限滚动
 
+			updated(){
 
-			computed:{
-				loading(){
-					return this.load; // loading 是一个计算属性， 只要依赖的值发生改变， 那么计算属性loading也会改变
-				}
-			},
-
-			watch:{
-				
 			},
 
 			data(){
 				return {
-					recommendlist:[],
-					currentpage:0,
-					isEnd:false,
-					totalPage:0,
+					
 				}
 			},
 
 
 			methods:{
 				
-				getRecommendList(num,callback){
-					
-					axios.get(this.url,{
-						params: Object.assign({num: num},this.data) //合并对象
-					}).then(res=>{
-					  	// console.log(res.data);
-					  	this.recommendlist =[...this.recommendlist,...res.data.data.list];
-					  	this.totalPage = res.data.data.totalPage;
-					  	callback && callback();
-					  })
-					  .catch(function (error) {
-					    console.log(error);
-					  });
-				},
-				loadMore(){
-					
-
-					this.loading = true; //禁用无限加载 ，直接改变计算属性
-					this.getRecommendList(++this.currentpage,()=>{
-						
-						if(this.currentpage<this.totalPage){
-							this.loading= false; //启用无限加载，直接改变计算属性
-						}else{
-							this.isEnd=true;
-							this.loading= true; //禁用无限加载， 所有的数据请求完了已经，，直接改变计算属性
-						}
-					});
-				},
-
 				handleClick(){
-					console.log(this.data);
+					
 				}
 			}
 

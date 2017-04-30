@@ -8,11 +8,11 @@
 				<div class="search">
 					<i class="iconfont icon-search"></i>
 					<div style="margin-right:40px;"><input type="text" placeholder="搜索拼团商品" v-model="searchtext"/></div>
-					<span class="searchbtn" @click="handleSearch">搜索</span>
+					<span class="searchbtn" @click="handleSearch(searchtext)">搜索</span>
 				</div>
 
 				<ul class="category">
-					<li v-for="(data,index) in categorylist">
+					<li v-for="(data,index) in categorylist" @click="handleSearch(data.label)">
 						<img :src="data.icon"/>
 						<span>{{data.label}}</span>
 					</li>
@@ -63,8 +63,8 @@
 			},
 			methods:{
 				
-				handleSearch(){
-					router.push({path:"/tuansearch",query:{text:this.searchtext}})
+				handleSearch(searchtext){
+					router.push({path:"/tuansearch",query:{text:searchtext}})
 				}
 				
 			},
