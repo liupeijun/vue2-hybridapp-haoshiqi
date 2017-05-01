@@ -26,14 +26,21 @@
 
 	<script>
 		import router from "../router";
+		import { Indicator } from 'mint-ui';
+
 		export default {
 
 			created(){
-				axios.get("/api/categorylist").then(res=>{
+				Indicator.open();
+
+				axios.get(`${process.env.URL}/categorylist`).then(res=>{
 					// console.log(res.data.data);
 					this.list = res.data.data.list;
+					Indicator.close();
+
 				}).catch(error=>{
 					console.log(error);
+					Indicator.close();
 				})
 			},
 
@@ -72,9 +79,10 @@
 				    	border:0px;
 				    	height: 1.5625rem;
 				    	width:100%;
-						line-height:44px;
+						// line-height:44px;
 						padding:0px 30px;
 						background:#fff;
+						font-size:0.75rem;
 				    }
 
 				    i{

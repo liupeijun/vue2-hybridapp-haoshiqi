@@ -36,7 +36,7 @@
 
 	<script>
 		import router from "../router";
-
+		import { Indicator } from 'mint-ui';
 		let  CancelToken ;
 		let  source ;
 
@@ -89,14 +89,14 @@
 					let params=null;
 					if(this.from=="/category"){
 						//
-						url="/api/search/category";
+						url=`${process.env.URL}/search/category`;
 						params= {
 					      num: num,
 					      text:value,
 					      id:this.$route.query.id //category _id 值
 					    }
 					}else{
-						url="/api/search/list";
+						url=`${process.env.URL}/search/list`;
 						params= {
 					      num: num,
 					      text:value
@@ -127,7 +127,7 @@
 
 				loadMore(){
 					
-
+					Indicator.open();
 					this.loading = true; //禁用无限加载
 					this.getSearchList(this.title,++this.num,()=>{
 						if(!this.totalPage && this.searchlist.length==0){
@@ -140,6 +140,7 @@
 							this.isEnd=true;
 							this.loading= true; //禁用无限加载， 所有的数据请求完了已经
 						}
+						Indicator.close();
 					});
 				},
 

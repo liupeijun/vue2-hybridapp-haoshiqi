@@ -5,7 +5,7 @@
 				<div class="logo"></div>
 				<input type="text" placeholder="搜索你想要的商品" @focus="handleFocus()"/>
 				<div class="location">
-					<span>山东省</span><i class="iconfont icon-moreunfold"></i>
+					<span>{{location}}</span><i class="iconfont icon-moreunfold"></i>
 				</div>
 			</div>
 
@@ -58,8 +58,11 @@
 	<script>
 		import router  from "../router";
 		import Vue from "vue";
+		import { Indicator } from 'mint-ui';
+		import { Toast } from 'mint-ui';
 		import { InfiniteScroll } from 'mint-ui';
 		Vue.use(InfiniteScroll); //全局指令
+
 
 		//分割数字的过滤器 by kerwin
 		Vue.filter('formatNumber',function(value){
@@ -73,20 +76,43 @@
 		export default {
 			created(){
 				//请求banner数据by Kerwin
-
-				axios.get('/api/home/index')
+				
+				axios.get(`${process.env.URL}/home/index`)
 				  .then(res=>{
 				  	// console.log(res.data.data);
 				  	this.bannerlist = res.data.data.bannerList;
 				  	this.buttonlist = res.data.data.subButtonList;
 				  	this.activitieslist = res.data.data.marketingActivities;
+		
 				  })
 				  .catch(function (error) {
 				    console.log(error);
+
 				  });
 
 				  //加载第一页的推荐表,不需要加载，无限滚动组件会自动加载一次
 				 // this.getRecommendList(this.currentpage);
+
+				 var _this =this;
+				 //获取经纬度值
+				 var onSuccess = function(position) {
+							
+					axios.get("http://api.map.baidu.com/geocoder/v2/?location="+position.coords.latitude+","+position.coords.longitude+"&output=json&pois=1&ak=67jMQ5DmYTe1TLMBKFUTcZAR").then(res=>{
+						
+						console.log(res.data.result.addressComponent.province);
+						_this.location = res.data.result.addressComponent.province;
+
+						Toast(`已定位到${_this.location}`);
+					})
+				};
+
+				// onError回调函数接收一个PositionError对象
+				function onError(error) {
+					alert('code: '    + error.code    + '\n' +
+						'message: ' + error.message + '\n');
+					_this.location= "Kerwin";
+				}
+				navigator.geolocation.getCurrentPosition(onSuccess, onError,{ maximumAge: 3000, timeout: 5000, enableHighAccuracy: true });
 			},
 
 
@@ -110,14 +136,14 @@
 					activitieslist:[],
 					recommendlist:[],
 					loading:false ,//false 表示不禁用无限滚动
-
+					location:""
 				}
 			},
 			
 			methods:{
 				
 				getRecommendList(num,callback){
-					axios.get('/api/home/recommend',{
+					axios.get(`${process.env.URL}/home/recommend`,{
 						params: {
 					      num: num
 					    }
@@ -133,10 +159,11 @@
 				},
 				loadMore(){
 					
-
+					Indicator.open();
 					this.loading = true; //禁用无限加载
 					this.getRecommendList(++this.currentpage,()=>{
 						this.loading= false; //启用无限加载
+						Indicator.close();
 					});
 				},
 
@@ -168,7 +195,7 @@
 				    left: .625rem;
 				    width: 3.75rem;
 				    height: 1.125rem;
-				    background: url(//img1.haoshiqi.net/assets/hsqimg/logo2.png) top left no-repeat;
+				    background: url(http://img1.haoshiqi.net/assets/hsqimg/logo2.png) top left no-repeat;
 				    -webkit-background-size: auto 100%;
 				    background-size: auto 100%;
 				    z-index: 1000;
@@ -183,6 +210,7 @@
 					border-radius:0.25rem;
 					background:#fff;
 					padding: 0 .625rem;
+					font-size:0.75rem;
 				}
 
 				.location{

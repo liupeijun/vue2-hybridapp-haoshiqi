@@ -87,13 +87,14 @@
 	<script>
 		import router from "../router";
 		import tuancore  from "./tuansearchcore.vue"; //引入组件
+		import { Indicator } from 'mint-ui';
 		let  CancelToken ;
 		let  source ;
 		export default {
 
 			mounted(){
 				//进行ajax请求
-				axios.get("/api/couplelist/search/config").then(res=>{
+				axios.get(`${process.env.URL}/couplelist/search/config`).then(res=>{
 					this.productionAreaOptions = res.data.data.productionAreaOptions;
 					this.priceOptions = res.data.data.priceOptions;
 				})
@@ -185,7 +186,7 @@
 
 				getRecommendList(num,callback){
 					
-					axios.get('/api/couplelist/search/activities',{
+					axios.get(`${process.env.URL}/couplelist/search/activities`,{
 						cancelToken: source.token, //设置token(所有的请求的都是同一个token)
 						params: Object.assign({num: num},this.params) //合并对象
 					}).then(res=>{
@@ -200,7 +201,7 @@
 				},
 				loadMore(){
 					
-
+					Indicator.open();
 					this.isNeedLoading = true; //禁用无限加载 ，直接改变计算属性
 					this.getRecommendList(++this.currentpage,()=>{
 						
@@ -210,6 +211,8 @@
 							this.isEnd=true;
 							this.isNeedLoading= true; //禁用无限加载， 所有的数据请求完了已经，，直接改变计算属性
 						}
+
+						Indicator.close();
 					});
 				},
 

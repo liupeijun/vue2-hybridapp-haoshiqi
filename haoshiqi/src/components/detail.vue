@@ -95,6 +95,7 @@
 	<script>
 		import router  from "../router";
 		import { Toast } from 'mint-ui';
+		import { Indicator } from 'mint-ui';
 		let  CancelToken ;
 		let  source ;
 		export default {
@@ -144,7 +145,9 @@
 				},
 
 				getItemInfo(){
-					axios("/api/product/info",{
+					Indicator.open();
+
+					axios(`${process.env.URL}/product/info`,{
 						params:{
 							id:this.$route.query.id
 						},
@@ -152,13 +155,14 @@
 					}).then(res=>{
 						console.log(res.data.data);
 						this.detailInfo = res.data.data;
-						return axios("/api/product/detail",{
+						return axios(`${process.env.URL}/product/detail`,{
 							params:{
 								id:this.detailInfo.productId
 							}
 						})
 					}).then(res=>{
 						this.productInfo = res.data;
+						Indicator.close();
 					})
 				},
 

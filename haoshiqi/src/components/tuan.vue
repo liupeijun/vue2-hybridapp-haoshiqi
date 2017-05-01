@@ -18,7 +18,7 @@
 					</li>
 				</ul>
 
-				<tuancore :load="isNeedLoading" :url="'/api/couplelist/product'"></tuancore>
+				<tuancore :load="isNeedLoading" :url="url"></tuancore>
 
 				<!-- 通过属性 传给子组件 isNeedLoading 是true 还是false 来判断是否该进行滚动加载功能 -->
 			</div>
@@ -33,7 +33,7 @@
 			created(){
 				//获取index数据
 
-				axios("/api/couplelist/index").then(res=>{
+				axios(`${process.env.URL}/couplelist/index`).then(res=>{
 					// console.log(res);
 					this.categorylist = res.data.data.subButtonList;
 				}).catch(error=>{
@@ -58,7 +58,8 @@
 				return {
 					categorylist:[],
 					isNeedLoading:false,
-					searchtext:""
+					searchtext:"",
+					url:`${process.env.URL}/couplelist/product`
 				}
 			},
 			methods:{
@@ -106,10 +107,10 @@
 				    	border:0px;
 				    	height: 1.5625rem;
 				    	width:100%;
-						line-height:44px;
+						// line-height:44px;
 						padding:0px 30px;
 						background:#f7f7f7;
-						
+						font-size:0.75rem;
 				    }
 
 				    i{

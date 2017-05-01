@@ -26,7 +26,7 @@
 
 
 	<script>
-
+		import { Indicator } from 'mint-ui';
 		export default {
 			created(){
 
@@ -74,7 +74,7 @@
 				},
 				loadMore(){
 					
-
+					Indicator.open();
 					this.loading = true; //禁用无限加载 ，直接改变计算属性
 					this.getRecommendList(++this.currentpage,()=>{
 						
@@ -84,6 +84,7 @@
 							this.isEnd=true;
 							this.loading= true; //禁用无限加载， 所有的数据请求完了已经，，直接改变计算属性
 						}
+						Indicator.close();
 					});
 				},
 

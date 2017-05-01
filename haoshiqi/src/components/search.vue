@@ -26,12 +26,16 @@
 
 	<script>
 		import router from "../router";
+		import { Indicator } from 'mint-ui';
 		export default {
 			created(){
-				axios.get("/api/search").then(res=>{
+				Indicator.open();
+				axios.get(`${process.env.URL}/search`).then(res=>{
 					// console.log(res.data.data);
 					this.hotlist= res.data.data.list;
+					Indicator.close();
 				}).catch(error=>{
+					Indicator.close();
 					console.log(error);
 				})
 			},
@@ -70,7 +74,8 @@
 					    	border:0px;
 					    	height: 1.5625rem;
 					    	width:100%;
-							line-height:44px;
+							// line-height:44px;
+							font-size:0.75rem;
 							padding:0px 30px;
 							background:#fff;
 							border-radius: .25rem;

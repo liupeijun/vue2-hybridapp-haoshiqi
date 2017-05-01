@@ -9,13 +9,14 @@
 				<dl v-for="(data,index) in shopData">
 					<dt>
 
-						<input type="checkbox"  v-model="data.isChecked" @change="handleChecked(data)"/>
+						<input type="checkbox"  v-model="data.isChecked" @click="handleChecked(data,$event)"/>
 						{{data.name}} <b><i class="iconfont icon-more"></i></b>
 					</dt>
 					<dd>
-						<ul>
+						<ul >
 							<li v-for="(childitem,childindex) in data.children" >
-								<input type="checkbox"  v-model="childitem.isChecked" @change="handleChildChecked(data)"/>
+								<input type="checkbox"  v-model="childitem.isChecked" @click="handleChildChecked('shopitem'+index,data,childitem,$event)" :ref="'shopitem'+index"/>
+								<span v-show="false">{{date}}</span>
 								<div class="item">
 									<img :src="childitem.thumbnail"/>
 									<h3>{{childitem.name}}</h3>
@@ -40,7 +41,7 @@
 			<div class="footer" v-show="shopData.length">
 				
 					<div class="checkdiv">
-						<input type="checkbox" @change="handleAll()" v-model="isChecked"/>
+						<input type="checkbox" @click="handleAll" />
 						<p>全选</p>
 					</div>
 					<div class="sumbtn" @click="handlePay()">去结算</div>
@@ -69,7 +70,8 @@
 			data(){
 				return{
 					kerwinShopData:[],
-					isChecked:false
+					isChecked:false,
+					date:""
 				}
 			},
 		
@@ -118,23 +120,28 @@
 					}
 				},
 
-				handleChecked(data){
-					// console.log(data.isChecked);
+				handleChecked(data,ev){
+					// console.log(ev.target.checked);
 					data.children.forEach(item=>{
-						item.isChecked =data.isChecked;
+							item.isChecked =ev.target.checked;
 					})
 				},
-				handleChildChecked(data){
-					var isChecked =data.children.every(item=>item.isChecked==true);
-					data.isChecked =isChecked;
+				handleChildChecked(data,item,childitem,ev){
+					
+					var isChecked =this.$refs[data].every(item=>item.checked==true);
+					item.isChecked =isChecked;
+					childitem.isChecked = ev.target.checked;
+
+					this.date= new Date(); //fixed bug 
 				},
 
-				handleAll(data){
+				handleAll(ev){
+					console.log(ev.target.checked);
 					this.shopData.forEach(item=>{
 
-						item.isChecked= this.isChecked;
+						item.isChecked= ev.target.checked;
 						item.children.forEach(childitem=>{
-							childitem.isChecked = this.isChecked;
+							childitem.isChecked = ev.target.checked;
 						})
 					})
 				},
