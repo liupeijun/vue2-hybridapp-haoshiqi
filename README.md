@@ -60,10 +60,13 @@ cordova build android
 ```
 
 # 效果演示
-![](https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/1.png)
-![](https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/2.png)
-![](https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/3.png)
-![](https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/4.png)
+<p>
+  <img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/1.png" width="200" float="left"/>
+  <img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/2.png" width="200" float="left"/>
+  <img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/3.png" width="200" float="left"/>
+  <img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/4.png" width="200" float="left"/>
+
+</p>
 
 # 待办事项
 
