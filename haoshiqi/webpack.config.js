@@ -6,7 +6,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../hybridApp/www/dist/'),
     publicPath: 'dist/',
-    filename: 'build.js'
+    filename: 'build.js',
+    chunkFilename: 'app.[chunkhash:6].js', //为了按需加载 设置chunkname
   },
   module: {
     rules: [
@@ -36,13 +37,16 @@ module.exports = {
 
       {
         test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
+        options: {
+          name: 'fonts/[name].[ext]?[hash]'
+        }
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          name: 'imgs/[name].[ext]?[hash]'
         }
       }
     ]

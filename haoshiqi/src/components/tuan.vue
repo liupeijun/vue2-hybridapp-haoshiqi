@@ -154,6 +154,7 @@
 						    font-size: .75rem;
 						    text-align: center;
 						    color: #959595;
+						    display: block;
 						}
 					}
 				}
