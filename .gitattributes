@@ -1,0 +1,3 @@
+*.h linguist-language=JavaScript
+*.m linguist-language=JavaScript
+*.java linguist-language=JavaScript
