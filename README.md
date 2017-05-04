@@ -43,7 +43,7 @@ npm start
 
 cd haoshiqi 
 
-npm install
+cnpm install(*****因为使用了sass，为了顺利完成安装，最好使用cnpm install******************)
 
 npm run dev  (开发环境)
 
