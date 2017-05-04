@@ -43,11 +43,13 @@ npm start
 
 cd haoshiqi 
 
-cnpm install(*****因为使用了sass，为了顺利完成安装，最好使用cnpm install******************)
+cnpm install(******因为使用了sass，为了顺利完成安装，最好使用cnpm install******)
 
 npm run dev  (开发环境)
 
-npm run build (发布环境,dist目录会生成在hybridApp\www 文件夹下，可以手动修改webpack.config.js)
+npm run build 
+(发布环境,为了手机能正常访问node服务器，需要手动修改webpack.config.js,URL:'"http://你的ip地址:3000"'  
+dist目录会生成在hybridApp\www 文件夹下，当然dist生成路径可以自行修改)
 
 # 4. 如果要生成混合app,进入hybridApp目录,生成android,ios工程， 最后编译
 
