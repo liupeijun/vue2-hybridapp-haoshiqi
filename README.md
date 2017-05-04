@@ -9,11 +9,11 @@
 
 ## 说明
 
->  vue2 + vue-router + vuex + cordova + nodejs 项目实战开发
+>  这个项目是关于 vue2 + vue-router + vuex + cordova + nodejs 的项目实战开发
 
->  所有的数据通过node request 获取的(后台代码详见backend目录)
+>  所有的数据通过node request 获取(后台代码详见backend目录)
 
->  前后端分离的架构设计，配置webpack的反向代理实现前后端数据的通信.（前端代码详见haoshiqi目录）
+>  前后端分离的架构设计，配置webpack-dev-server的反向代理实现前后端数据的通信.（前端代码详见haoshiqi目录）
 
 >  结合cordova api实现硬件访问功能，通过phonegap开发者预览工具进行测试(cordova工程详见hybirdApp目录)
 
@@ -21,9 +21,9 @@
 
 >  如果对您有帮助，您可以点右上角 "Star" 支持一下 谢谢！ ^_^
 
->  或者您可以 "follow" 一下，我会不断开源更多的有趣的项目
+>  或者您可以 "follow" 一下，我会继续开源项目
 
->  如有问题请直接在 Issues 中提，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
+>  如有问题请在 Issues 中提，或者您发现问题并有非常好的解决方案，欢迎 PR 👍
 
 
 
