@@ -7,7 +7,7 @@
   <br>
 </p>
 
-## 说明
+# 说明
 
 >  这个项目是关于 vue2 + vue-router + vuex + cordova + nodejs 的项目实战开发
 
@@ -27,7 +27,7 @@
 
 
 
-## 项目运行（nodejs 6.0+）
+# 项目运行（nodejs 6.0+）
 ``` bash
 # 1. git clone git@github.com:liupeijun/vue2-hybridapp-haoshiqi.git
 
