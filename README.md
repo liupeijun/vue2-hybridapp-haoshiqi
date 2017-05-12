@@ -61,6 +61,10 @@ cordova build android
 
 ```
 
+# 架构介绍
+
+<img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/kerwin.png" width="100%" />
+
 # 效果演示
 <p>
   <img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/1.png" width="200" float="left"/>
