@@ -7,7 +7,7 @@
   <br>
 </p>
 
-## 说明
+# 说明
 
 >  这个项目是关于 vue2 + vue-router + vuex + cordova + nodejs 的项目实战开发
 
@@ -27,7 +27,7 @@
 
 
 
-## 项目运行（nodejs 6.0+）
+# 项目运行（nodejs 6.0+）
 ``` bash
 # 1. git clone git@github.com:liupeijun/vue2-hybridapp-haoshiqi.git
 
@@ -60,6 +60,10 @@ cordova platform add android (cordova platform add ios)
 cordova build android 
 
 ```
+
+# 架构介绍
+
+<img src="https://github.com/liupeijun/vue2-hybridapp-haoshiqi/blob/master/screenshot/kerwin.png" width="100%" />
 
 # 效果演示
 <p>
