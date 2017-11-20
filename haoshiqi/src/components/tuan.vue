@@ -137,10 +137,9 @@
 				    display: flex;
 				    width: 100%;
 				    margin-top:10px;
+				    flex-wrap: wrap;
 					li{
-						-webkit-box-flex: 1;
-						-webkit-flex:1;
-						flex:1;
+						width:20%;
 						text-align:center;
 						padding:10px;
 						background:#fff;

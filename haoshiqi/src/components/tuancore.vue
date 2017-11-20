@@ -37,9 +37,7 @@
 
 
 			computed:{
-				loading(){
-					return this.load; // loading 是一个计算属性， 只要依赖的值发生改变， 那么计算属性loading也会改变
-				}
+				
 			},
 
 			watch:{
@@ -52,6 +50,7 @@
 					currentpage:0,
 					isEnd:false,
 					totalPage:0,
+					loading:this.load
 				}
 			},
 
